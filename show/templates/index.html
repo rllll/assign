@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>储蓄保险账户实验</title>
+</head>
+<body>
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px;">
+        <div class="card">
+            <div class="card-header text-center bg-info text-white">
+                <h1>储蓄保险账户实验</h1>
+            </div>
+            <div class="card-body">
+                <h4 class="text-info">产品描述</h4>
+                <p>
+                    为了帮助您更好的规避农业风险，我们设计了一个储蓄保险账户，在这个账户里你可以进行储蓄存款和购买保险，其中进行储蓄的部分将会按照银行利率给付利息，购买保险部分将会用于购买“水稻气象指数保险”，
+                    您可以自由分配账户里存入储蓄和保险的金额。但是<u class="text-danger">注意账户里的金额只有在被判定灾害时才可以取出，且每年最多取出一次。</u>
+                </p>
+                <p>
+                    此产品每年一期，一期为三个月，即投保有效期为三个月。您可向账户中每年投入等额的金钱，并选择分配至储蓄和保险的金额各是多少。
+                </p>
+                <h4 class="text-info">实验内容</h4>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="user_id">1. 用户编号</label>
+                        <input id="user_id" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_money">2. 如果有这样的<b>储蓄保险账户</b>每年您愿意投入多少钱？(元/亩)</label>
+                        <input id="total_money" type="number" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_saving">3. 账户中<b>储蓄</b>愿意分配多少钱？ (元/亩)</label>
+                        <input id="total_saving" type="number" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_insurance">4. 账户中<b>保险</b>愿意分配多少钱？(元/亩)</label>
+                        <input id="total_insurance" type="number" class="form-control" value="">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col text-left">
+                            <button id="finish" class="btn btn-success">已经实验</button>
+                        </div>
+                        <div class="col text-right">
+                            <button id="start" class="btn btn-success">开始实验</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function handleSubmit(){
+            var user_id = $('#user_id')[0];
+            if (user_id.value == ""){
+                alert("请输入用户编号^_^");
+                return;
+            }
+            var total_money = $('#total_money')[0];
+            if (total_money.value <= 0 || total_money.value > 1e9){
+                alert("储蓄保险账户金额设置不合理^_^");
+                return;
+            }
+            var total_saving = $('#total_saving')[0];
+            if (total_saving.value <= 0 || total_saving.value > 1e9){
+                alert("储蓄金额设置不合理^_^");
+                return;
+            }
+            var total_insurance = $('#total_insurance')[0];
+            if (total_insurance.value <= 0 || total_insurance.value > 1e9){
+                alert("保险金额设置不合理^_^");
+                return;
+            }
+            $.ajax({
+                url: "/show/add/",
+                type:"POST",
+                data: {
+                    'user_id':user_id.value,
+                    'total_money':total_money.value,
+                    'total_saving':total_saving.value,
+                    'total_insurance':total_insurance.value,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    location.href = data['url'];
+                }
+            });
+        }
+        $('#start').click(function(){
+            handleSubmit();
+        });
+        $('#finish').click(function(){
+            location.href = "/show/finish/";
+        });
+    </script>
+</body>
+</html>

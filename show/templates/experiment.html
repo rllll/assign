@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>用户实验</title>
+</head>
+<body>
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px;">
+        <div class="card">
+            <div class="card-header bg-info text-center text-white">
+                <h1>当前是编号为<span class="text-primary">{{user_id}}</span>的实验者</h1>
+            </div>
+            <div class="card-body">
+                <h3 class="text-warning">{{ex_introduce}}</h3>
+                {% if times > 8 %}
+                    <h3>实验结束！感谢参与！</h3>
+                {% else %}
+                    <h3>当前实验次数：{{times}}</h3>
+                {% endif %}
+                <form role="form" id="myform" action="{% url 'show:addex' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{user_id}}">
+                    <input type="hidden" name="ex_times" id="ex_times" value="{{times}}">
+                    <input type="hidden" name="last_remain" id="last_remain" value="{{last_remain}}">
+                    <input type="hidden" name="affected_degree" id="affected_degree" value="0.0"/>
+                    <input type="hidden" name="affected_date" id="affected_date" value="0">
+                    <input type="hidden" name="gain_money" id="gain_money" value="0.00">
+                    <input type="hidden" name="before_affected_saving_sum" id="before_affected_saving_sum" value="0.00">
+                    {% if times <= 8 %}
+                    <div class="form-group">
+                        <label for="area">您拥有的水稻种植面积为？（亩）</label>
+                        <input type="number" name="area" class="form-control" id="area" min="0.0" max="10000000.0" step="0.1" value="{{t_area}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="saving">储蓄金额（元/亩）【储蓄金额+保险金额=20.0（元/亩）】</label>
+                        <input type="number" name="saving" id="saving" class="form-control" min="0.00" max="20.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="insurance">保险费（元/亩）</label>
+                        <input type="number" name="insurance" class="form-control" id="insurance" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="lost_situation">受灾赔偿情况</label>
+                        <input type="text" name="lost_situation" class="form-control" id="lost_situation" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="lost_money">受损金额</label>
+                        <input type="text" name="lost_money" class="form-control" id="lost_money" readonly>
+                    </div>
+                    <div id="lost_show_1" style="display: block;">
+                        <p style="color: red;">赔偿后可选，不赔偿默认为“否”</p>
+                    </div>
+                    <div class="form-group" id="lost_show_2" style="display: block;">
+                        <label for="is_get">是否从账户中取钱？</label>
+                        <select name="is_get" id="is_get">
+                            <option value="1">是</option>
+                            <option value="2" selected="selected">否</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="cur_show" style="display: none;">
+                        <label for="current_remain">受灾时账户余额（元/亩）</label>
+                        <input type="number" readonly name="current_remain" id="current_remain" value="0.00">
+                    </div>
+                    <div class="form-group" id="lost_show_3" style="display: block;">
+                        <label for="reduce_money">取出金额为（元/亩）</label>
+                        <input type="number" name="reduce_money" min="0.00" max="1000000000.00" step="0.01" value="">
+                    </div>
+                    {% elif times == 9 %}
+                    <div class="form-group">
+                        <label for="integral">您本次实验获得的积分为</label>
+                        <input type="number" class="form-control" name="integral" id="integral" readonly value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="final_choice">恭喜您完成实验，请填写您最满意的储蓄保险分配比重？</label>
+                        <input type="text" class="form-control" name="final_choice">
+                    </div>
+                    {% endif %}
+                    {% if times <= 9 %}
+                    <div class="text-center">
+                        <input class="btn btn-success" style="margin-top:10px;margin-bottom:10px;width: 100%;" type="submit" value="提交">
+                    </div>
+                    {% endif %}
+                </form>
+                {% if times > 9 %}
+                <h4>您最满意的储蓄保险分配比重为：{{last_choice}}</h4>
+                <p><a href="{% url 'show:index' %}">下一位用户</a></p>
+                {% endif %}
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>选择</th>
+                                <th>储蓄金额</th>
+                                <th>保险金额</th>
+                                <th>受灾赔偿情况</th>
+                                <th>获得赔偿金额</th>
+                                <th>受灾时账户余额</th>
+                                <th>是否从账户取钱</th>
+                                <th>取出金额</th>
+                                <th>本次账户余额（元/亩）</th>
+                                <th>账户总余额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if tag == 1 %}
+                                {% for item in data %}
+                                    <tr>
+                                        <td>{{item.ex_times}}</td>
+                                        <td>{{item.saving}}</td>
+                                        <td>{{item.insurance}}</td>
+                                        <td>{{item.lost_situation}}</td>
+                                        <td>{{item.gain_money}}</td>
+                                        <td>{{item.current_remain}}</td>
+                                        {% if item.reduce_money > 0.00 %}
+                                        <td>是</td>
+                                        {% else %}
+                                        <td>否</td>
+                                        {% endif %}
+                                        <td>{{item.reduce_money}}</td>
+                                        <td>{{item.balance}}</td>
+                                        <td>{{item.total_balance}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ex_times = document.getElementById('ex_times');
+
+        var saving = document.getElementById('saving');
+        var insurance = document.getElementById('insurance');
+        var last_remain = document.getElementById('last_remain');
+
+        if (parseInt(ex_times.value) == 9){
+            var integral = document.getElementById('integral');
+            integral.value = parseFloat(last_remain.value);
+            if (integral.value <= 130)
+                integral.value = 5;
+            else if (integral.value < 700)
+                integral.value = 10;
+            else
+                integral.value = 15;
+        }
+
+        var current_remain = document.getElementById('current_remain');
+
+        var lost_situation = document.getElementById('lost_situation');
+        var lost_money = document.getElementById('lost_money');
+        var affected_degree = document.getElementById('affected_degree');
+        var affected_date = document.getElementById('affected_date');
+        var before_affected_saving_sum = document.getElementById('before_affected_saving_sum');
+        var gain_money = document.getElementById('gain_money');
+
+        var lost_show_1 = document.getElementById('lost_show_1');
+        var lost_show_2 = document.getElementById('lost_show_2');
+        var lost_show_3 = document.getElementById('lost_show_3');
+
+        var cur_show = document.getElementById('cur_show');
+
+        var is_get = document.getElementById('is_get');
+
+        saving.oninput = function(){
+            if (saving.value == ''){
+                insurance.value = '';
+                lost_situation.value = '';
+            }else{
+                if (saving.value > 20){
+                    alert("输入的储蓄金额值大于20！");
+                    saving.value = '';
+                    insurance.value = '';
+                    lost_situation.value = '';
+                    return;
+                }
+                insurance.value = 20 - saving.value;
+                var random_seed = parseInt(Math.random()*100000,10);
+                var lost_money_random = parseFloat(random_seed) / 100000.0 * 285;
+                var type = '';
+                if (random_seed <= 67025)
+                    type = 'A';
+                else if (random_seed <= 70000)
+                    type = 'B';
+                else if (random_seed <= 70316)
+                    type = 'C';
+                else
+                    type = 'D';
+                lost_money.value = 0;
+                switch(type){
+                    case 'A':
+                       lost_situation.value = "A.受灾赔偿";
+                       lost_money.value = lost_money_random;
+                       break;
+                    case 'B':
+                        lost_situation.value = 'B.受灾没赔偿';
+                        lost_money.value = lost_money_random;
+                        break;
+                    case 'C':
+                        lost_situation.value = 'C.没受灾赔偿';
+                        break;
+                    case 'D':
+                        lost_situation.value = 'D.没受灾没赔偿';
+                        break;
+                    default:
+                        lost_situation.value = '';
+                        lost_money.value = 0;
+                }
+                affected_degree.value = Math.round(Math.random()*0.7*100)/100;
+                affected_date.value = parseInt(Math.random()*91,10);
+                
+                before_affected_saving_sum.value = (parseFloat(saving.value) + parseFloat(last_remain.value))*(1+0.0055*affected_date.value*(1/365));
+                before_affected_saving_sum.value = Math.round(before_affected_saving_sum.value*100)/100;
+                
+                if (type == 'B' || type == 'D'){
+                    lost_show_1.style.display = "none";
+                    lost_show_2.style.display = "none";
+                    lost_show_3.style.display = "none";
+                    gain_money.value = 0;
+                    is_get.value = "2";
+                }
+                if (type == 'A' || type == 'C'){
+                    lost_show_1.style.display = "block";
+                    lost_show_2.style.display = "block";
+                    lost_show_3.style.display = "block";
+                    gain_money.value = (parseFloat(insurance.value)/0.07)*affected_degree.value;
+                    is_get.onchange = function(){
+                        var cur = is_get.value;
+                        if (cur == '1'){
+                            cur_show.style.display = "block";
+                        }else{
+                            cur_show.style.display = "none";
+                        }
+                    }
+                }
+                current_remain.value = parseFloat(gain_money.value) + parseFloat(before_affected_saving_sum.value);
+
+                gain_money.value = Math.round(gain_money.value*100)/100;
+                current_remain.value = Math.round(current_remain.value*100)/100;
+            }
+        }
+    </script>
+</body>
+</html>

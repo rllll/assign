@@ -1,0 +1,44 @@
+[2021-04-16 20:57:29 +0800] [17691] [INFO] Starting gunicorn 20.0.4
+[2021-04-16 20:57:29 +0800] [17691] [INFO] Listening at: http://127.0.0.1:8003 (17691)
+[2021-04-16 20:57:29 +0800] [17691] [INFO] Using worker: sync
+[2021-04-16 20:57:29 +0800] [17694] [INFO] Booting worker with pid: 17694
+[2021-04-16 20:58:26 +0800] [17697] [INFO] Booting worker with pid: 17697
+[2021-04-16 20:58:26 +0800] [17691] [INFO] Handling signal: hup
+[2021-04-16 20:58:26 +0800] [17691] [INFO] Hang up: Master
+[2021-04-16 20:58:26 +0800] [17698] [INFO] Booting worker with pid: 17698
+[2021-04-16 20:58:27 +0800] [17697] [INFO] Worker exiting (pid: 17697)
+[2021-04-18 12:49:43 +0800] [17698] [INFO] Parent changed, shutting down: <Worker 17698>
+[2021-04-18 12:49:43 +0800] [17698] [INFO] Worker exiting (pid: 17698)
+[2021-04-18 12:50:23 +0800] [20438] [INFO] Starting gunicorn 20.0.4
+[2021-04-18 12:50:23 +0800] [20438] [INFO] Listening at: http://127.0.0.1:8003 (20438)
+[2021-04-18 12:50:23 +0800] [20438] [INFO] Using worker: sync
+[2021-04-18 12:50:23 +0800] [20441] [INFO] Booting worker with pid: 20441
+[2021-04-18 12:50:47 +0800] [20463] [INFO] Booting worker with pid: 20463
+[2021-04-18 12:50:47 +0800] [20438] [INFO] Handling signal: hup
+[2021-04-18 12:50:47 +0800] [20438] [INFO] Hang up: Master
+[2021-04-18 12:50:47 +0800] [20465] [INFO] Booting worker with pid: 20465
+[2021-04-18 12:50:48 +0800] [20463] [INFO] Worker exiting (pid: 20463)
+[2021-04-19 20:48:17 +0800] [20465] [INFO] Parent changed, shutting down: <Worker 20465>
+[2021-04-19 20:48:17 +0800] [20465] [INFO] Worker exiting (pid: 20465)
+[2021-04-19 20:53:25 +0800] [23613] [INFO] Starting gunicorn 20.0.4
+[2021-04-19 20:53:25 +0800] [23613] [INFO] Listening at: http://127.0.0.1:8003 (23613)
+[2021-04-19 20:53:25 +0800] [23613] [INFO] Using worker: sync
+[2021-04-19 20:53:25 +0800] [23616] [INFO] Booting worker with pid: 23616
+[2021-04-19 20:53:33 +0800] [23649] [INFO] Booting worker with pid: 23649
+[2021-04-19 20:53:33 +0800] [23613] [INFO] Handling signal: hup
+[2021-04-19 20:53:33 +0800] [23613] [INFO] Hang up: Master
+[2021-04-19 20:53:33 +0800] [23651] [INFO] Booting worker with pid: 23651
+[2021-04-19 20:53:34 +0800] [23649] [INFO] Worker exiting (pid: 23649)
+[2021-04-20 08:18:33 +0800] [23651] [INFO] Parent changed, shutting down: <Worker 23651>
+[2021-04-20 08:18:33 +0800] [23651] [INFO] Worker exiting (pid: 23651)
+[2021-04-20 08:18:42 +0800] [25355] [INFO] Starting gunicorn 20.0.4
+[2021-04-20 08:18:42 +0800] [25355] [INFO] Listening at: http://127.0.0.1:8003 (25355)
+[2021-04-20 08:18:42 +0800] [25355] [INFO] Using worker: sync
+[2021-04-20 08:18:42 +0800] [25358] [INFO] Booting worker with pid: 25358
+[2021-04-20 09:15:35 +0800] [30486] [INFO] Booting worker with pid: 30486
+[2021-04-20 09:15:35 +0800] [25355] [INFO] Handling signal: hup
+[2021-04-20 09:15:35 +0800] [25355] [INFO] Hang up: Master
+[2021-04-20 09:15:35 +0800] [30487] [INFO] Booting worker with pid: 30487
+[2021-04-20 09:15:36 +0800] [30486] [INFO] Worker exiting (pid: 30486)
+[2021-06-10 09:54:53 +0800] [30487] [INFO] Parent changed, shutting down: <Worker 30487>
+[2021-06-10 09:54:53 +0800] [30487] [INFO] Worker exiting (pid: 30487)
