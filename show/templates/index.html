@@ -71,17 +71,17 @@
                 return;
             }
             var total_money = $('#total_money')[0];
-            if (total_money.value <= 0 || total_money.value > 1e9){
+            if (total_money.value < 0 || total_money.value > 1e9){
                 alert("储蓄保险账户金额设置不合理^_^");
                 return;
             }
             var total_saving = $('#total_saving')[0];
-            if (total_saving.value <= 0 || total_saving.value > 1e9){
+            if (total_saving.value < 0 || total_saving.value > 1e9){
                 alert("储蓄金额设置不合理^_^");
                 return;
             }
             var total_insurance = $('#total_insurance')[0];
-            if (total_insurance.value <= 0 || total_insurance.value > 1e9){
+            if (total_insurance.value < 0 || total_insurance.value > 1e9){
                 alert("保险金额设置不合理^_^");
                 return;
             }

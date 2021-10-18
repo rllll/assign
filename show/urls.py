@@ -9,5 +9,6 @@ urlpatterns = [
     path('ex/<user_id>',views.experiment,name='exper'),
     path('addex/',views.addexper,name='addex'),
     path('finish/',views.finish,name='finish'),
-    path('exists/',views.existsuser,name='exists')
+    path('exists/',views.existsuser,name='exists'),
+    path('modify/',views.modifyGL,name='modify')
 ]

@@ -8,6 +8,9 @@ import random
 def index(request):
     context = {}
     return render(request,'index.html',context)
+def modifyGL(request):
+    context = {}
+    return render(request,'modify.html',context)
 def finish(request):
     context = {}
     context['data'] = []
